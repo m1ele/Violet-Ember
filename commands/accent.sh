@@ -44,3 +44,8 @@ ve_command_accent() {
             ;;
     esac
 }
+
+ve_register_command \
+    "$VE_COMMAND_ACCENT_NAME" \
+    "$VE_COMMAND_ACCENT_DESCRIPTION" \
+    "ve_command_accent"

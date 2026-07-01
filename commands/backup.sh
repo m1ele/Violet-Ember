@@ -33,3 +33,8 @@ ve_command_backup() {
             ;;
     esac
 }
+
+ve_register_command \
+    "$VE_COMMAND_BACKUP_NAME" \
+    "$VE_COMMAND_BACKUP_DESCRIPTION" \
+    "ve_command_backup"

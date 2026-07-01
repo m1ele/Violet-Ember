@@ -42,3 +42,8 @@ ve_command_doctor() {
         ve_error "${issues} issue(s), ${warnings} warning(s) detected."
     fi
 }
+
+ve_register_command \
+    "$VE_COMMAND_DOCTOR_NAME" \
+    "$VE_COMMAND_DOCTOR_DESCRIPTION" \
+    "ve_command_doctor"
