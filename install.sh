@@ -59,7 +59,7 @@ else
   ve_success "Current accent preserved"
 fi
 
-cp "$ROOT_DIR/scripts/violet-ember" "$BIN_DIR/violet-ember"
+cp "$ROOT_DIR/bin/violet-ember" "$BIN_DIR/violet-ember"
 chmod +x "$BIN_DIR/violet-ember"
 ve_success "CLI installed: $BIN_DIR/violet-ember"
 
