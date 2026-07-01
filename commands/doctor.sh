@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+VE_COMMAND_DOCTOR_NAME="doctor"
+VE_COMMAND_DOCTOR_DESCRIPTION="Run diagnostics"
+
 ve_command_doctor() {
     local issues=0
     local warnings=0

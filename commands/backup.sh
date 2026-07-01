@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+VE_COMMAND_BACKUP_NAME="backup"
+VE_COMMAND_BACKUP_DESCRIPTION="Manage backups"
+
 ve_command_backup() {
     local action="${1:-list}"
 

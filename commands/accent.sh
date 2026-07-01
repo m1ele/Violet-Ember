@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+VE_COMMAND_ACCENT_NAME="accent"
+VE_COMMAND_ACCENT_DESCRIPTION="Manage Accent Packs"
+
 ve_command_accent() {
     local action="${1:-list}"
     local project_root="${VE_PROJECT_ROOT:-$PWD}"
