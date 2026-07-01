@@ -59,7 +59,18 @@ else
   ve_success "Current accent preserved"
 fi
 
-cp "$ROOT_DIR/bin/violet-ember" "$BIN_DIR/violet-ember"
+APP_DIR="$HOME/.local/share/violet-ember"
+
+rm -rf "$APP_DIR"
+mkdir -p "$APP_DIR"
+cp -r "$ROOT_DIR"/{bin,commands,core,lib,themes} "$APP_DIR/"
+
+cat > "$BIN_DIR/violet-ember" <<'EOF'
+#!/usr/bin/env bash
+VE_PROJECT_ROOT="$HOME/.local/share/violet-ember"
+exec "$VE_PROJECT_ROOT/bin/violet-ember" "$@"
+EOF
+
 chmod +x "$BIN_DIR/violet-ember"
 ve_success "CLI installed: $BIN_DIR/violet-ember"
 
