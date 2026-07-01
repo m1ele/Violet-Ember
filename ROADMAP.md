@@ -33,3 +33,22 @@
 - Community Accent Packs
 - Contribution validation
 - Extended documentation
+
+## v0.5.0 — Framework
+
+Goal: render the project maintainable.
+
+- Modular configuration under `~/.config/violet-ember/`
+- Idempotent installer
+- Small `.zshrc` source block
+- Shared CLI output helpers
+- Root remains Ember and separate from user Accent Packs
+
+## v0.6.0 — Safety & Restore
+
+Goal: make recovery trustworthy.
+
+- `violet-ember doctor`
+- `violet-ember backup list`
+- `violet-ember restore`
+- `violet-ember restore latest`

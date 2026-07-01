@@ -96,6 +96,46 @@ The project avoids unnecessary dependencies and distribution-specific logic in t
 - `dev` contains experimental work.
 - Features are discussed, tested and documented before release.
 
+
+## Framework Layout
+
+Violet Ember keeps your shell configuration small.
+
+After installation, your `.zshrc` only needs to source:
+
+```zsh
+source "$HOME/.config/violet-ember/theme.zsh"
+```
+
+The theme itself lives in:
+
+```text
+~/.config/violet-ember/
+├── theme.zsh
+├── core/
+├── lib/
+├── accents/
+├── backups/
+└── current-accent.conf
+```
+
+This keeps the project portable, maintainable and easier to restore.
+
 ## License
 
 MIT License.
+
+## Trust & Reliability
+
+Run diagnostics:
+
+```bash
+violet-ember doctor
+```
+
+Manage backups:
+
+```bash
+violet-ember backup list
+violet-ember backup create
+```

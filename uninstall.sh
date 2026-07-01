@@ -1,22 +1,55 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-VE_HOME="$HOME/.config/violet-ember"
-BIN="$HOME/.local/bin/violet-ember"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$ROOT_DIR/lib/output.sh"
 
-echo "◆ Violet Ember ◆ uninstall"
+WITH_ROOT=0
+for arg in "$@"; do
+  case "$arg" in
+    --with-root) WITH_ROOT=1 ;;
+    -h|--help)
+      ve_header
+      cat <<'HELP'
+Usage:
+  ./uninstall.sh [--with-root]
 
-latest_backup="$(ls -t "$HOME"/.zshrc.backup-violet-ember-* 2>/dev/null | head -n1 || true)"
-if [[ -n "$latest_backup" ]]; then
-  cp "$latest_backup" "$HOME/.zshrc"
-  echo "Restored user backup: $latest_backup"
-else
-  echo "No user backup found. Leaving ~/.zshrc unchanged."
+Removes Violet Ember source blocks from .zshrc files.
+It does not delete backups.
+HELP
+      exit 0
+      ;;
+  esac
+done
+
+START_MARK="# >>> Violet Ember >>>"
+END_MARK="# <<< Violet Ember <<<"
+ZSHRC="$HOME/.zshrc"
+
+ve_header
+
+if [[ -f "$ZSHRC" ]]; then
+  tmp="$(mktemp)"
+  awk -v start="$START_MARK" -v end="$END_MARK" '
+    $0 == start {skip=1; next}
+    $0 == end {skip=0; next}
+    !skip {print}
+  ' "$ZSHRC" > "$tmp"
+  mv "$tmp" "$ZSHRC"
+  ve_success "Removed user source block"
 fi
 
-rm -f "$BIN"
-echo "Removed command: $BIN"
+if [[ "$WITH_ROOT" -eq 1 ]]; then
+  if sudo test -f /root/.zshrc; then
+    sudo awk -v start="$START_MARK" -v end="$END_MARK" '
+      $0 == start {skip=1; next}
+      $0 == end {skip=0; next}
+      !skip {print}
+    ' /root/.zshrc | sudo tee /root/.zshrc.violet-ember.tmp >/dev/null
+    sudo mv /root/.zshrc.violet-ember.tmp /root/.zshrc
+    ve_success "Removed root source block"
+  fi
+fi
 
-# Keep ~/.config/violet-ember by default because it contains accent backups.
-echo "Kept config directory: $VE_HOME"
-echo "Remove it manually if you no longer need it."
+ve_warn "Configuration files in ~/.config/violet-ember were kept."
+ve_success "Done"
