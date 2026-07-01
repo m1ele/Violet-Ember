@@ -17,6 +17,7 @@ ve_command_self_test() {
     ./bin/violet-ember accent current >/dev/null && ve_success "accent current"
     ./bin/violet-ember backup list >/dev/null && ve_success "backup list"
     ./bin/violet-ember doctor >/dev/null && ve_success "doctor"
+    ./tests/check-structure.sh >/dev/null && ve_success "repository structure"
 
     printf "\n"
     ve_section "Summary"
