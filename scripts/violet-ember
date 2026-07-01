@@ -1,0 +1,96 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+VE_HOME="${VIOLET_EMBER_HOME:-$HOME/.config/violet-ember}"
+ACCENTS_DIR="$VE_HOME/accents"
+CURRENT="$VE_HOME/current-accent.conf"
+BACKUP_DIR="$VE_HOME/backups"
+
+logo() { printf '◆ Violet Ember ◆\n'; }
+usage() {
+  logo
+  cat <<'EOF'
+
+Usage:
+  violet-ember accent list
+  violet-ember accent current
+  violet-ember accent set <name>
+  violet-ember help
+
+Examples:
+  violet-ember accent list
+  violet-ember accent set ocean
+EOF
+}
+
+require_home() {
+  if [[ ! -d "$VE_HOME" ]]; then
+    echo "Violet Ember is not installed for this user."
+    echo "Run ./install.sh first."
+    exit 1
+  fi
+}
+
+list_accents() {
+  require_home
+  logo
+  echo
+  echo "Official Accent Packs"
+  echo
+  shopt -s nullglob
+  for file in "$ACCENTS_DIR"/*.conf; do
+    name="$(basename "$file" .conf)"
+    display="$name"
+    if grep -q '^VE_ACCENT_NAME=' "$file"; then
+      display="$(grep '^VE_ACCENT_NAME=' "$file" | head -n1 | cut -d= -f2- | tr -d '"')"
+    fi
+    printf '• %s\n' "$display"
+  done
+}
+
+current_accent() {
+  require_home
+  if [[ -f "$CURRENT" ]] && grep -q '^VE_ACCENT_NAME=' "$CURRENT"; then
+    grep '^VE_ACCENT_NAME=' "$CURRENT" | head -n1 | cut -d= -f2- | tr -d '"'
+  else
+    echo "Unknown"
+  fi
+}
+
+set_accent() {
+  require_home
+  local name="${1:-}"
+  if [[ -z "$name" ]]; then
+    echo "Missing accent name."
+    usage
+    exit 1
+  fi
+  local src="$ACCENTS_DIR/${name}.conf"
+  if [[ ! -f "$src" ]]; then
+    echo "Accent not found: $name"
+    echo
+    list_accents
+    exit 1
+  fi
+  mkdir -p "$BACKUP_DIR"
+  if [[ -f "$CURRENT" ]]; then
+    cp "$CURRENT" "$BACKUP_DIR/current-accent.$(date +%Y%m%d-%H%M%S).conf"
+    echo "Backup created."
+  fi
+  cp "$src" "$CURRENT"
+  echo "Applied accent: $(current_accent)"
+  echo "Run: source ~/.zshrc"
+}
+
+case "${1:-help}" in
+  help|-h|--help) usage ;;
+  accent)
+    case "${2:-}" in
+      list) list_accents ;;
+      current) current_accent ;;
+      set) set_accent "${3:-}" ;;
+      *) usage; exit 1 ;;
+    esac
+    ;;
+  *) usage; exit 1 ;;
+esac

@@ -1,0 +1,206 @@
+# ~/.zshrc — Violet Ember Theme for Kali Zsh
+# Based on Kali's default zshrc, cleaned and customized.
+
+#########################################
+# Shell behavior
+#########################################
+setopt autocd
+#setopt correct
+setopt interactivecomments
+setopt magicequalsubst
+setopt nonomatch
+setopt notify
+setopt numericglobsort
+setopt promptsubst
+
+WORDCHARS='_-'       # Do not treat _ and - as word separators
+PROMPT_EOL_MARK=""  # Hide EOL sign (%)
+
+#########################################
+# Keybindings
+#########################################
+bindkey -e
+bindkey ' ' magic-space
+bindkey '^U' backward-kill-line
+bindkey '^[[3;5~' kill-word
+bindkey '^[[3~' delete-char
+bindkey '^[[1;5C' forward-word
+bindkey '^[[1;5D' backward-word
+bindkey '^[[5~' beginning-of-buffer-or-history
+bindkey '^[[6~' end-of-buffer-or-history
+bindkey '^[[H' beginning-of-line
+bindkey '^[[F' end-of-line
+bindkey '^[[Z' undo
+
+#########################################
+# Completion
+#########################################
+autoload -Uz compinit
+compinit -d ~/.cache/zcompdump
+
+zstyle ':completion:*:*:*:*:*' menu select
+zstyle ':completion:*' auto-description 'specify: %d'
+zstyle ':completion:*' completer _expand _complete
+zstyle ':completion:*' format 'Completing %d'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+zstyle ':completion:*' rehash true
+zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+zstyle ':completion:*' use-compctl false
+zstyle ':completion:*' verbose true
+zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+
+#########################################
+# History
+#########################################
+HISTFILE=~/.zsh_history
+HISTSIZE=1000
+SAVEHIST=2000
+setopt hist_expire_dups_first
+setopt hist_ignore_dups
+setopt hist_ignore_space
+setopt hist_verify
+#setopt share_history
+
+alias history='history 0'
+
+#########################################
+# Time format
+#########################################
+TIMEFMT=$'\nreal\t%E\nuser\t%U\nsys\t%S\ncpu\t%P'
+
+#########################################
+# Debian chroot indicator
+#########################################
+if [[ -z "${debian_chroot:-}" && -r /etc/debian_chroot ]]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
+
+#########################################
+# Violet Ember Accent Engine
+#########################################
+VIOLET_EMBER_HOME="${VIOLET_EMBER_HOME:-$HOME/.config/violet-ember}"
+if [[ -f "$VIOLET_EMBER_HOME/current-accent.conf" ]]; then
+    source "$VIOLET_EMBER_HOME/current-accent.conf"
+else
+    VE_ACCENT_NAME="Violet"
+    VE_USERNAME="#A288E3"
+    VE_DIRECTORY="#CEA7EE"
+    VE_ARROW="198"
+    VE_ALIAS="#D8B4FE"
+    VE_PATH="#C084FC"
+fi
+
+#########################################
+# Violet Ember Prompt
+#########################################
+VIRTUAL_ENV_DISABLE_PROMPT=1
+NEWLINE_BEFORE_PROMPT=yes
+
+configure_prompt() {
+    PROMPT='%F{'$VE_USERNAME'}%n %F{242}• %F{'$VE_DIRECTORY'}%1~ %F{'$VE_ARROW'}➜ %f'
+    RPROMPT=''
+}
+
+configure_prompt
+
+precmd() {
+    print -Pn "\e]0;%n • %1~\a"
+
+    if [[ "$NEWLINE_BEFORE_PROMPT" == yes ]]; then
+        if [[ -z "$_NEW_LINE_BEFORE_PROMPT" ]]; then
+            _NEW_LINE_BEFORE_PROMPT=1
+        else
+            print ""
+        fi
+    fi
+}
+
+#########################################
+# Syntax highlighting
+#########################################
+if [[ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+    source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+    ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
+    ZSH_HIGHLIGHT_STYLES[default]=none
+    ZSH_HIGHLIGHT_STYLES[unknown-token]=underline
+    ZSH_HIGHLIGHT_STYLES[reserved-word]=fg=${VE_ALIAS},bold
+    ZSH_HIGHLIGHT_STYLES[suffix-alias]=fg=${VE_ALIAS},underline
+    ZSH_HIGHLIGHT_STYLES[global-alias]=fg=${VE_ALIAS},bold
+    ZSH_HIGHLIGHT_STYLES[precommand]=fg=green,underline
+    ZSH_HIGHLIGHT_STYLES[commandseparator]=fg=${VE_ALIAS},bold
+    ZSH_HIGHLIGHT_STYLES[autodirectory]=fg=${VE_PATH},underline
+    ZSH_HIGHLIGHT_STYLES[path]=fg=${VE_PATH}
+    ZSH_HIGHLIGHT_STYLES[path_pathseparator]=fg=${VE_USERNAME}
+    ZSH_HIGHLIGHT_STYLES[path_prefix_pathseparator]=fg=${VE_USERNAME}
+    ZSH_HIGHLIGHT_STYLES[globbing]=fg=${VE_ALIAS},bold
+    ZSH_HIGHLIGHT_STYLES[history-expansion]=fg=${VE_ALIAS},bold
+    ZSH_HIGHLIGHT_STYLES[command-substitution]=none
+    ZSH_HIGHLIGHT_STYLES[command-substitution-delimiter]=fg=${VE_ALIAS},bold
+    ZSH_HIGHLIGHT_STYLES[process-substitution]=none
+    ZSH_HIGHLIGHT_STYLES[process-substitution-delimiter]=fg=${VE_ALIAS},bold
+    ZSH_HIGHLIGHT_STYLES[single-hyphen-option]=fg=${VE_ALIAS}
+    ZSH_HIGHLIGHT_STYLES[double-hyphen-option]=fg=${VE_ALIAS}
+    ZSH_HIGHLIGHT_STYLES[single-quoted-argument]=fg=${VE_DIRECTORY}
+    ZSH_HIGHLIGHT_STYLES[double-quoted-argument]=fg=${VE_DIRECTORY}
+    ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument]=fg=${VE_DIRECTORY}
+    ZSH_HIGHLIGHT_STYLES[redirection]=fg=${VE_ALIAS},bold
+    ZSH_HIGHLIGHT_STYLES[comment]=fg=244
+    ZSH_HIGHLIGHT_STYLES[arg0]=fg=#F3E8FF,bold
+    ZSH_HIGHLIGHT_STYLES[command]=fg=#F3E8FF,bold
+    ZSH_HIGHLIGHT_STYLES[builtin]=fg=#F3E8FF,bold
+    ZSH_HIGHLIGHT_STYLES[alias]=fg=${VE_ALIAS},bold
+    ZSH_HIGHLIGHT_STYLES[bracket-error]=fg=red,bold
+    ZSH_HIGHLIGHT_STYLES[bracket-level-1]=fg=${VE_ALIAS},bold
+    ZSH_HIGHLIGHT_STYLES[bracket-level-2]=fg=${VE_USERNAME},bold
+    ZSH_HIGHLIGHT_STYLES[bracket-level-3]=fg=${VE_DIRECTORY},bold
+    ZSH_HIGHLIGHT_STYLES[cursor-matchingbracket]=standout
+fi
+
+#########################################
+# LS_COLORS and aliases
+#########################################
+# LS_COLORS currently follows Violet Ember defaults.
+# Future releases may make this fully accent-aware.
+export LS_COLORS='di=1;38;2;162;136;227:ln=38;2;206;167;238:ex=1;38;2;157;78;221:*.zip=38;2;255;173;3:*.tar=38;2;255;173;3:*.gz=38;2;255;173;3:*.png=38;2;182;123;230:*.jpg=38;2;182;123;230:*.jpeg=38;2;182;123;230:ow=30;44'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+
+alias ls='ls --color=auto'
+alias ll='ls -l'
+alias la='ls -A'
+alias l='ls -CF'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+alias diff='diff --color=auto'
+alias ip='ip --color=auto'
+
+#########################################
+# less / man colors
+#########################################
+export LESS_TERMCAP_mb=$'\E[1;31m'
+export LESS_TERMCAP_md=$'\E[1;36m'
+export LESS_TERMCAP_me=$'\E[0m'
+export LESS_TERMCAP_so=$'\E[01;33m'
+export LESS_TERMCAP_se=$'\E[0m'
+export LESS_TERMCAP_us=$'\E[1;32m'
+export LESS_TERMCAP_ue=$'\E[0m'
+export MANROFFOPT='-c'
+
+#########################################
+# Autosuggestions
+#########################################
+if [[ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
+    source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=244'
+fi
+
+#########################################
+# Command-not-found
+#########################################
+if [[ -f /etc/zsh_command_not_found ]]; then
+    source /etc/zsh_command_not_found
+fi
