@@ -6,7 +6,7 @@ ve_accent_current() {
     if [[ -r "${VE_ACCENT_FILE}" ]]; then
         # shellcheck disable=SC1090
         source "${VE_ACCENT_FILE}"
-        printf '%s\n' "${NAME:-Unknown}"
+        printf '%s\n' "${VE_ACCENT_NAME:-Unknown}"
     else
         printf 'None\n'
     fi
@@ -16,7 +16,7 @@ ve_accent_is_valid_file() {
     local file="$1"
     [[ -r "$file" ]] || return 1
 
-    local required=(NAME USERNAME DIRECTORY ARROW ALIAS PATH_COLOR)
+    local required=(VE_ACCENT_NAME VE_USERNAME VE_DIRECTORY VE_ARROW VE_ALIAS VE_PATH)
     local key
     for key in "${required[@]}"; do
         grep -Eq "^${key}=" "$file" || return 1
