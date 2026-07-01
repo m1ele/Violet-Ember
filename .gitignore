@@ -1,0 +1,18 @@
+# Backup
+*.backup
+*.bak
+
+# Temporary
+*.tmp
+
+# macOS
+.DS_Store
+
+# Vim
+*.swp
+
+# Zsh cache
+.zcompdump*
+
+# Logs
+*.log
