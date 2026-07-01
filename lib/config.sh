@@ -2,7 +2,7 @@
 # ◆ Violet Ember ◆
 # Central configuration for paths and versioning.
 
-: "${VE_VERSION:=0.7.0}"
+: "${VE_VERSION:=0.8.0-dev}"
 : "${VE_NAME:=Violet Ember}"
 
 : "${VE_CONFIG_DIR:=${HOME}/.config/violet-ember}"
