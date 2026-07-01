@@ -1,141 +1,192 @@
 # ◆ Violet Ember ◆
 
-**A coherent, reliable and portable workspace theme for Zsh on Linux.**
+> **A simple, modular and reliable shell experience.**
 
-Designed for people who spend hours in a terminal.
+Minimal by design.  
+Built to stay out of your way.
 
-Violet Ember is not just a prompt. It is a minimal workspace experience where colors communicate state, root is always recognizable, and the terminal stays readable after long sessions.
+---
 
-```text
-◆ Violet Ember ◆
+## What is Violet Ember?
 
-Coherent.
-Reliable.
-Portable.
-Minimal.
-```
+Violet Ember is a simple, coherent and personalized working environment for Zsh.
 
-## Philosophy
+It focuses on readability, consistency and reliability instead of visual effects.
 
-Violet Ember exists to make the terminal disappear while you work.
+The goal is simple:
 
-It does not aim to be flashy. It aims to be calm, predictable and useful.
+> **Help you work, not distract you.**
 
-Core ideas:
+Violet Ember is designed to become part of your workflow, not the center of it.
 
-- Accent Packs customize the normal user identity.
-- Root always uses Ember colors.
-- Semantic colors always win.
-- Simple code is a feature.
-- Trust comes before customization.
+---
 
-Read more in [`CHARTER.md`](CHARTER.md) and [`DESIGN.md`](DESIGN.md).
+## Why Violet Ember?
 
-## Status
+Most shell themes try to stand out.
 
-Current version: **v0.4.0 — Publication Foundation**
+Violet Ember tries to disappear.
 
-This is still an early project, but it is already installable and testable.
+It avoids unnecessary customization and visual noise, offering a clean and predictable environment focused on productivity.
 
-## Install
+Every design choice follows a clear purpose.
+
+### Core Principles
+
+- Semantic colors over decorative colors
+- Modularity over complexity
+- Safe by default
+- Readability first
+- Consistency beats customization
+
+Every feature exists for a reason.
+
+---
+
+## Features
+
+- 🎨 Official Accent Packs
+- 🔥 Root/User visual separation
+- 🩺 Built-in Doctor
+- ✅ Self-Test
+- 💾 Backup Manager
+- ♻️ Restore Manager
+- 🧩 Modular Internal API
+- 📦 Simple installation
+- 🔒 Safe by default
+
+---
+
+## Installation
+
+Clone the repository:
 
 ```bash
-unzip Violet-Ember-v0.4.0-Publication-Foundation.zip
-cd Violet-Ember-v0.4.0-Publication-Foundation
-chmod +x install.sh uninstall.sh
+git clone https://github.com/m1ele/Violet-Ember.git
+cd Violet-Ember
+```
+
+Install for the current user:
+
+```bash
+chmod +x install.sh
+./install.sh
+```
+
+Install both user and root themes:
+
+```bash
 ./install.sh --with-root
 ```
 
-Open a new terminal or run:
+---
 
-```bash
-source ~/.zshrc
-```
-
-## Accent Engine
-
-List Accent Packs:
-
-```bash
-violet-ember accent list
-```
-
-Show current Accent Pack:
-
-```bash
-violet-ember accent current
-```
-
-Change Accent Pack:
-
-```bash
-violet-ember accent set ocean
-source ~/.zshrc
-```
-
-Root remains Ember regardless of the selected Accent Pack.
-
-## Official Accent Packs
-
-- Violet
-- Ocean
-- Emerald
-- Sapphire
-- Golden
-- Rose
-
-## Portability
-
-Violet Ember is developed on Kali Linux, but the goal is to support Linux systems where Zsh is available.
-
-The project avoids unnecessary dependencies and distribution-specific logic in the core.
-
-## Project workflow
-
-- `main` contains stable releases.
-- `dev` contains experimental work.
-- Features are discussed, tested and documented before release.
-
-
-## Framework Layout
-
-Violet Ember keeps your shell configuration small.
-
-After installation, your `.zshrc` only needs to source:
-
-```zsh
-source "$HOME/.config/violet-ember/theme.zsh"
-```
-
-The theme itself lives in:
+## Commands
 
 ```text
-~/.config/violet-ember/
-├── theme.zsh
-├── core/
-├── lib/
-├── accents/
-├── backups/
-└── current-accent.conf
+violet-ember help
+violet-ember version
+violet-ember accent
+violet-ember backup
+violet-ember restore
+violet-ember doctor
+violet-ember self-test
 ```
 
-This keeps the project portable, maintainable and easier to restore.
+---
+
+## Project Structure
+
+```
+bin/
+commands/
+core/
+lib/
+themes/
+tests/
+docs/
+assets/
+```
+
+The project is intentionally modular.
+
+Each component has a single responsibility.
+
+---
+
+## Documentation
+
+Everything is documented inside the repository.
+
+- README
+- MANIFESTO
+- PHILOSOPHY
+- STYLE
+- DESIGN
+- ARCHITECTURE
+- ROADMAP
+- CHANGELOG
+- CONTRIBUTING
+- ADRs
+
+Documentation grows together with the project.
+
+---
+
+## Philosophy
+
+Violet Ember is not just a prompt.
+
+It is a working environment.
+
+Simple.
+
+Reliable.
+
+Predictable.
+
+Built for people who spend hours inside a terminal.
+
+---
+
+## Project Status
+
+Current branch:
+
+```
+dev
+```
+
+Current development:
+
+```
+v0.8.0-dev
+```
+
+Road to:
+
+```
+v1.0.0
+```
+
+---
+
+## Contributing
+
+Contributions, ideas and improvements are welcome.
+
+Before contributing, please read:
+
+- CONTRIBUTING.md
+- STYLE.md
+- MANIFESTO.md
+
+---
 
 ## License
 
-MIT License.
+Released under the MIT License.
 
-## Trust & Reliability
+---
 
-Run diagnostics:
-
-```bash
-violet-ember doctor
-```
-
-Manage backups:
-
-```bash
-violet-ember backup list
-violet-ember backup create
-```
+> **Simple enough to disappear. Powerful enough to stay.**
