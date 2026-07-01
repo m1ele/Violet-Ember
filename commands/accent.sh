@@ -15,7 +15,7 @@ ve_command_accent() {
             while IFS= read -r file; do
                 # shellcheck disable=SC1090
                 source "$file"
-                ve_info "${NAME}"
+                ve_info "${VE_ACCENT_NAME}"
             done < <(ve_accent_list "$project_root")
             ;;
         current)
