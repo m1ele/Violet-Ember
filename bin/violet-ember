@@ -16,5 +16,6 @@ source "${VE_PROJECT_ROOT}/commands/accent.sh"
 source "${VE_PROJECT_ROOT}/commands/backup.sh"
 source "${VE_PROJECT_ROOT}/commands/doctor.sh"
 source "${VE_PROJECT_ROOT}/commands/restore.sh"
+source "${VE_PROJECT_ROOT}/commands/self-test.sh"
 
 ve_dispatch "$@"
