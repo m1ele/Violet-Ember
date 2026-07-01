@@ -24,6 +24,18 @@ ve_command_accent() {
             ;;
         set)
             local accent="${2:-}"
+	    if [[ -z "$accent" || "$accent" == "?" ]]; then
+    		ve_header
+    		ve_section "Available Accent Packs"
+    		while IFS= read -r file; do
+        	   source "$file"
+        	   ve_info "$(basename "$(dirname "$file")")  ($VE_ACCENT_NAME)"
+    		done < <(ve_accent_list "$project_root")
+
+    		printf "\n"
+    		ve_info "Usage: violet-ember accent set <name>"
+    		return 0
+	    fi
             [[ -n "$accent" ]] || { ve_error "Missing accent name"; return 1; }
             local file
             file="$(ve_accent_find "$project_root" "$accent" || true)"
