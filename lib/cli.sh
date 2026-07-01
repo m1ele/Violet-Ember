@@ -14,20 +14,16 @@ ve_dispatch() {
             ve_header
             ve_key_value "Version" "${VE_VERSION}"
             ;;
+
         help|--help|-h)
-            ve_header
-            cat <<'HELP'
-Usage:
-  violet-ember accent list
-  violet-ember accent current
-  violet-ember accent set <name>
-  violet-ember backup list
-  violet-ember backup create
-  violet-ember doctor
-  violet-ember version
-HELP
+    	    ve_header
+	    ve_section "Available commands"
+    	    ve_key_value "$VE_COMMAND_ACCENT_NAME" "$VE_COMMAND_ACCENT_DESCRIPTION"
+            ve_key_value "$VE_COMMAND_BACKUP_NAME" "$VE_COMMAND_BACKUP_DESCRIPTION"
+            ve_key_value "$VE_COMMAND_DOCTOR_NAME" "$VE_COMMAND_DOCTOR_DESCRIPTION"
+            ve_key_value "version" "Show installed version"
             ;;
-        *)
+         *)
             ve_error "Unknown command: ${command_name}"
             return 1
             ;;
